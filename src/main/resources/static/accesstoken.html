@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html xml:lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Access Token</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+<form onsubmit="return false" action="" class="w3-container w3-card-4 w3-light-grey w3-text-blue"
+      style="margin-top: 5%;margin-left: 5%;margin-right: 5%;">
+    <br/>
+    <h2 class="w3-center">Favourite Recipe</h2>
+
+    <div class="w3-row w3-section">
+        <br/>
+        <br/>
+        <div class="w3-col" style="width:40px"><br/><br/><em class="w3-xxlarge fa fa-lock"></em></div>
+        <div class="w3-rest">
+            <textarea id="accessToken" disabled="true" class="w3-input w3-border" rows="8" cols="100"></textarea>
+            <br/>
+        </div>
+    </div>
+
+    <p class="w3-center">
+        <a href="/swagger-ui/index.html" class="w3-button w3-section w3-blue w3-ripple">Swagger REST APIs</a>
+    </p>
+</form>
+
+<script src="./js/main.js"></script>
+<script>
+    window.onload = function () {
+        let accessToken = new URLSearchParams(window.location.hash).get('#access_token')
+        document.getElementById("accessToken").textContent = accessToken;
+    };
+</script>
+</body>
+</html>

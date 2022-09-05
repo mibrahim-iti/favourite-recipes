@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  postgres-db:
+    container_name:   postgres-db
+    image: postgres:14.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 50
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+
+  favourite-recipes:
+    depends_on:
+      postgres-db:
+          condition: service_healthy
+    image: favourite-recipes-image
+    container_name: favourite-recipes
+    environment:
+      - DB_HOST=postgres-db
+      - DB_PORT=5432
+    ports:
+      - '8080:8080'
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://favourite-recipes:8080/actuator/health" ]
+      interval: 5s
+      timeout: 5s
+      retries: 50
+
+volumes:
+  postgres-db:
+    driver: local

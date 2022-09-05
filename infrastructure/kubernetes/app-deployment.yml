@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: favourite-recipe
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: favourite-recipe
+  template:
+    metadata:
+      labels:
+        app: favourite-recipe
+    spec:
+      containers:
+        - name: favourite-recipe
+          image: mibrahimid/favourite-recipes:01
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_PORT
+              value: "8080"
+            - name: AUTH0_CALLBACK-URL
+              value: "http://favourite-recipes.mibrahim.tech/accesstoken.html"
+            - name: DATASOURCE_URL
+              value: "jdbc:postgresql://postgres-service:5432/postgres"
+            - name: DATASOURCE_USERNAME
+              value: "postgres"
+            - name: DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-password-secret
+                  key: password

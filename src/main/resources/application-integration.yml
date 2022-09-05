@@ -1,0 +1,13 @@
+auth0:
+  email-claim-key: http://test.com/email
+
+testcontainers:
+  reuse:
+    enable: true
+
+
+#  flyway:
+#    enabled: true
+#    locations: classpath:db/migration
+
+

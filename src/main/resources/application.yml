@@ -1,0 +1,49 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: "${ACTIVE_PROFILE: local}"
+  application:
+    name: favourite-recipes-server
+
+swagger:
+  info:
+    apiTitle: Favourite Recipes
+    apiDescription: Task assessment for ABN AMRO bank.
+    apiVersion: 1.0
+  contact:
+    apiContactName: Mohamed Ibrahim Ali
+    apiContactEmail: mibrahim.iti@gmail.com
+    apiContactUrl: https://www.linkedin.com/in/mohamed-ibrahim-ali/
+
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: s3Kb9GHPR4byDC9sBfBu6zsHBj5mQtiB
+      client-secret: J37B6LA-H05Ngx9HAYszKleIBeEAiXfaYUSdED8ozLVrw_gB-IK_JoWa0IKGAbUG
+      additional-query-string-params:
+        audience: https://dev-xzxj36v3.eu.auth0.com/api/v2/
+        response_type: token
+
+auth0:
+  domain: dev-xzxj36v3.eu.auth0.com
+  client-id: s3Kb9GHPR4byDC9sBfBu6zsHBj5mQtiB
+  issuer-uri: https://dev-xzxj36v3.eu.auth0.com/
+  callback-url: http://localhost:8080/accesstoken.html
+  audience: https://dev-xzxj36v3.eu.auth0.com/api/v2/
+  email-claim-key: http://mibrahim.tech/email
+
+logging:
+  level:
+    org:
+      flywaydb: DEBUG
+      springframework:
+        boot:
+          devtools:
+            restart: DEBUG
+
+testcontainers:
+  reuse:
+    enable: true
+
