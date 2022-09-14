@@ -13,6 +13,10 @@ import java.util.Objects;
 
 public final class RecipesSpecification {
 
+    public static final String INGREDIENTS = "ingredients";
+
+    public static final String INGREDIENT = "ingredient";
+
     private RecipesSpecification() {
 
         throw new IllegalStateException("Utility class");
@@ -49,18 +53,28 @@ public final class RecipesSpecification {
     private static Specification<Recipe> withIngredients(List<String> names) {
 
         return (root, query, builder) ->
-                CollectionUtils.isEmpty(names) ? builder.conjunction() : builder.in(root.join("ingredients", JoinType.INNER).get("ingredient").get("name")).value(names);
+                CollectionUtils.isEmpty(names) ? builder.conjunction() : builder.in(root.join(INGREDIENTS, JoinType.INNER).get(INGREDIENT).get("name")).value(names);
     }
 
     private static Specification<Recipe> withoutIngredients(List<String> names) {
 
         return (root, query, builder) ->
-                CollectionUtils.isEmpty(names) ? builder.conjunction() : builder.not(builder.in(root.join("ingredients", JoinType.INNER).get("ingredient").get("name")).value(names));
+                CollectionUtils.isEmpty(names) ? builder.conjunction() : builder.not(builder.in(root.join(INGREDIENTS, JoinType.INNER).get(INGREDIENT).get("name")).value(names));
+    }
+
+    private static Specification<Recipe> withFetchIngredients() {
+
+        return (root, query, builder) -> {
+            root.fetch(INGREDIENTS, JoinType.LEFT).fetch(INGREDIENT, JoinType.LEFT);
+            return builder.conjunction();
+        };
     }
 
     public static Specification<Recipe> buildRecipeSpecification(String userEmail, final RecipesSearchCriteria recipesSearchCriteria) {
 
         Specification<Recipe> specification = Specification.where(withCreatedBy(userEmail));
+
+        specification = withFetchIngredients();
 
         if (Objects.nonNull(recipesSearchCriteria.getIsVegetarian())) {
             specification = specification.and(withIsVegetarian(recipesSearchCriteria.getIsVegetarian()));

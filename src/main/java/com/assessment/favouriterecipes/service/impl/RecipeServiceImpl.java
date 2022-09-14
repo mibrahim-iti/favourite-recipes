@@ -50,7 +50,6 @@ public class RecipeServiceImpl implements RecipeCommandService, RecipeQueryServi
     private final RecipeIngredientRepository recipeIngredientRepository;
 
     @Override
-    @Transactional
     public RecipeResponse findById(final Long recipeId) {
 
         Validator.validateNotNull(recipeId, RECIPE_ID);
@@ -112,7 +111,6 @@ public class RecipeServiceImpl implements RecipeCommandService, RecipeQueryServi
     }
 
     @Override
-    @Transactional
     public PaginationResponse<RecipeResponse> listRecipes(final RecipesSearchCriteria recipesSearchCriteria) {
 
         Validator.validateNotNull(recipesSearchCriteria, "recipesSearchCriteria");

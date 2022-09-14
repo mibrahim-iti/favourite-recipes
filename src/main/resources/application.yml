@@ -6,6 +6,9 @@ spring:
     active: "${ACTIVE_PROFILE: local}"
   application:
     name: favourite-recipes-server
+  jpa:
+    properties:
+      hibernate.format_sql: true
 
 swagger:
   info:
@@ -42,8 +45,10 @@ logging:
         boot:
           devtools:
             restart: DEBUG
+      hibernate:
+        SQL: DEBUG
+        type.descriptor.sql.BasicBinder: TRACE
 
 testcontainers:
   reuse:
     enable: true
-
